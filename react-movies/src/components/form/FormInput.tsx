@@ -2,7 +2,11 @@ import { Input } from '../ui/input';
 import { FormBase, type FormControlProps } from './FormBase';
 import { useFieldContext } from './hooks';
 
-export default function FormInput(props: FormControlProps & { onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void }) {
+export default function FormInput(
+    props: FormControlProps & {
+        onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+    }
+) {
     const field = useFieldContext<string>();
     const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid;
 
@@ -25,7 +29,6 @@ export default function FormInput(props: FormControlProps & { onChange?: (e: Rea
                 aria-invalid={isInvalid}
                 disabled={props.disabled}
                 type={props.type}
-                accept={props.accept}
             />
         </FormBase>
     );

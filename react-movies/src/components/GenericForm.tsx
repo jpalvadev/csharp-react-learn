@@ -16,6 +16,7 @@ export interface FieldConfig<TData> {
     description?: string;
     colSpan?: number;
     onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+    accept?: string;
 }
 
 interface GenericFormProps<TData extends Record<string, any>> {
@@ -133,11 +134,12 @@ export default function GenericForm<TData extends Record<string, any>>({
                                                             mode === 'view'
                                                         }
                                                         onChange={f.onChange}
+                                                        accept={f.accept}
                                                     />
                                                 );
                                             case 'fileInput':
                                                 return (
-                                                    <field.Input
+                                                    <field.FileInput
                                                         type="file"
                                                         label={f.label}
                                                         description={
@@ -147,6 +149,7 @@ export default function GenericForm<TData extends Record<string, any>>({
                                                             mode === 'view'
                                                         }
                                                         onChange={f.onChange}
+                                                        accept={f.accept}
                                                     />
                                                 );
                                             default:

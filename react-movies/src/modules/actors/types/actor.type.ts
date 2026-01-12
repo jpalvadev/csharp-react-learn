@@ -9,7 +9,8 @@ const actorBaseSchema = z.object({
         .max(50, 'dont set sail, cat (no te zarpes, gato), 50 chars max')
         .refine(...firstLetterUppercase()),
     dateOfBirth: z.coerce.date().refine(...dateNotInFuture()),
-    picture: z.string().optional(),
+    // picture: z.string().optional(),
+    picture: z.file().optional(),
 });
 
 export const createActorSchema = actorBaseSchema;
