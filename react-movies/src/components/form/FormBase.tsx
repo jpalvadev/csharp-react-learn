@@ -13,6 +13,7 @@ export type FormControlProps = {
     description?: string;
     disabled?: boolean;
     type?: string;
+    onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
     accept?: string;
 };
 

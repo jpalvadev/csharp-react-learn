@@ -2,9 +2,17 @@ import { Input } from '../ui/input';
 import { FormBase, type FormControlProps } from './FormBase';
 import { useFieldContext } from './hooks';
 
-export default function FormInput(props: FormControlProps) {
+export default function FormInput(props: FormControlProps & { onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void }) {
     const field = useFieldContext<string>();
     const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid;
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (props.onChange) {
+            props.onChange(e);
+        } else {
+            field.handleChange(e.target.value);
+        }
+    };
 
     return (
         <FormBase {...props}>
@@ -13,7 +21,7 @@ export default function FormInput(props: FormControlProps) {
                 name={field.name}
                 value={field.state.value}
                 onBlur={field.handleBlur}
-                onChange={(e) => field.handleChange(e.target.value)}
+                onChange={handleChange}
                 aria-invalid={isInvalid}
                 disabled={props.disabled}
                 type={props.type}

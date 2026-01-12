@@ -1,10 +1,11 @@
 import { useAppForm } from '@/components/form/hooks';
-import { FieldGroup } from '@/components/ui/field';
 import { Button } from '@/components/ui/button';
+import { FieldGroup } from '@/components/ui/field';
+import { cn } from '@/lib/utils';
 import type { FormMode } from '@/types/FormMode.type';
-import { ZodType } from 'zod';
 import { useCanGoBack, useRouter } from '@tanstack/react-router';
 import type { ReactNode } from 'react';
+import { ZodType } from 'zod';
 import Loading from './Loading';
 
 // TKey asegura que solo pueda usar nombres que existan rn rl objeto Data
@@ -13,6 +14,8 @@ export interface FieldConfig<TData> {
     label: string;
     type: 'input' | 'textarea' | 'dateInput' | 'fileInput';
     description?: string;
+    colSpan?: number;
+    onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 interface GenericFormProps<TData extends Record<string, any>> {
@@ -24,6 +27,7 @@ interface GenericFormProps<TData extends Record<string, any>> {
     onSubmit?: (values: TData) => void;
     isPending: boolean;
     children?: ReactNode;
+    columns?: number;
 }
 
 export default function GenericForm<TData extends Record<string, any>>({
@@ -34,9 +38,23 @@ export default function GenericForm<TData extends Record<string, any>>({
     onSubmit,
     isPending,
     children,
+    columns = 4,
 }: GenericFormProps<TData>) {
     const router = useRouter();
     const canGoBack = useCanGoBack();
+
+    const getColClass = (colSpan?: number) => {
+        if (!colSpan) return 'col-span-4';
+
+        return {
+            'col-span-1': colSpan === 1,
+            'col-span-2': colSpan === 2,
+            'col-span-3': colSpan === 3,
+            'col-span-4': colSpan === 4,
+            'col-span-5': colSpan === 5,
+            'col-span-6': colSpan === 6,
+        };
+    };
 
     const form = useAppForm({
         defaultValues: initialData,
@@ -58,55 +76,90 @@ export default function GenericForm<TData extends Record<string, any>>({
             }}
         >
             <FieldGroup>
-                {fields.map((f) => (
-                    <form.AppField key={f.name} name={f.name}>
-                        {(field) => {
-                            const renderField = () => {
-                                switch (f.type) {
-                                    case 'input':
-                                        return (
-                                            <field.Input
-                                                type="text"
-                                                label={f.label}
-                                                description={f.description}
-                                                disabled={mode === 'view'}
-                                            />
-                                        );
-                                    case 'textarea':
-                                        return (
-                                            <field.Textarea
-                                                label={f.label}
-                                                description={f.description}
-                                                disabled={mode === 'view'}
-                                            />
-                                        );
-                                    case 'dateInput':
-                                        return (
-                                            <field.Input
-                                                type="date"
-                                                label={f.label}
-                                                description={f.description}
-                                                disabled={mode === 'view'}
-                                            />
-                                        );
-                                    case 'fileInput':
-                                        return (
-                                            <field.Input
-                                                type="file"
-                                                label={f.label}
-                                                description={f.description}
-                                                disabled={mode === 'view'}
-                                            />
-                                        );
-                                    default:
-                                        return null;
-                                }
-                            };
+                <div
+                    className={cn('grid gap-4', {
+                        'grid-cols-1': columns === 1,
+                        'grid-cols-2': columns === 2,
+                        'grid-cols-3': columns === 3,
+                        'grid-cols-4': columns === 4,
+                        'grid-cols-5': columns === 5,
+                        'grid-cols-6': columns === 6,
+                    })}
+                >
+                    {fields.map((f) => (
+                        <div
+                            key={f.name}
+                            className={cn(getColClass(f.colSpan))}
+                        >
+                            <form.AppField name={f.name}>
+                                {(field) => {
+                                    const renderField = () => {
+                                        switch (f.type) {
+                                            case 'input':
+                                                return (
+                                                    <field.Input
+                                                        type="text"
+                                                        label={f.label}
+                                                        description={
+                                                            f.description
+                                                        }
+                                                        disabled={
+                                                            mode === 'view'
+                                                        }
+                                                        onChange={f.onChange}
+                                                    />
+                                                );
+                                            case 'textarea':
+                                                return (
+                                                    <field.Textarea
+                                                        label={f.label}
+                                                        description={
+                                                            f.description
+                                                        }
+                                                        disabled={
+                                                            mode === 'view'
+                                                        }
+                                                    />
+                                                );
+                                            case 'dateInput':
+                                                return (
+                                                    <field.Input
+                                                        type="date"
+                                                        label={f.label}
+                                                        description={
+                                                            f.description
+                                                        }
+                                                        disabled={
+                                                            mode === 'view'
+                                                        }
+                                                        onChange={f.onChange}
+                                                    />
+                                                );
+                                            case 'fileInput':
+                                                return (
+                                                    <field.Input
+                                                        type="file"
+                                                        label={f.label}
+                                                        description={
+                                                            f.description
+                                                        }
+                                                        disabled={
+                                                            mode === 'view'
+                                                        }
+                                                        onChange={f.onChange}
+                                                    />
+                                                );
+                                            default:
+                                                return null;
+                                        }
+                                    };
 
-                            return renderField();
-                        }}
-                    </form.AppField>
-                ))}
+                                    return renderField();
+                                }}
+                            </form.AppField>
+                        </div>
+                    ))}
+                </div>
 
                 {children}
 
