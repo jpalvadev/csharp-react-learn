@@ -19,7 +19,7 @@ export default function GenreForm({
     ...rest
 }: GenreFormProps) {
     const genreFields: FieldConfig<Genre>[] = [
-        { name: 'name', label: 'Name', type: 'input' },
+        { name: 'name', label: 'Name', formField: 'input' },
     ];
 
     return (

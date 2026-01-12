@@ -9,8 +9,12 @@ const actorBaseSchema = z.object({
         .max(50, 'dont set sail, cat (no te zarpes, gato), 50 chars max')
         .refine(...firstLetterUppercase()),
     dateOfBirth: z.coerce.date().refine(...dateNotInFuture()),
-    // picture: z.string().optional(),
-    picture: z.file().optional(),
+    picture: z
+        .file()
+        .optional()
+        .refine((file) => file?.size <= 500000, {
+            message: 'Max file size is 500Kb',
+        }),
 });
 
 export const createActorSchema = actorBaseSchema;

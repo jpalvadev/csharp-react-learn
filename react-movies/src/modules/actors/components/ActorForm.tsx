@@ -20,17 +20,17 @@ export default function ActorForm({
     ...rest
 }: ActorFormProps) {
     const actorFields: FieldConfig<Actor>[] = [
-        { name: 'name', label: 'Name', type: 'input', colSpan: 2 },
+        { name: 'name', label: 'Name', formField: 'input', colSpan: 2 },
         {
             name: 'dateOfBirth',
             label: 'Date Of Birth',
-            type: 'dateInput',
+            formField: 'dateInput',
             colSpan: 2,
         },
         {
             name: 'picture',
             label: 'Picture',
-            type: 'fileInput',
+            formField: 'fileInput',
             colSpan: 2,
             accept: 'image/*',
         },

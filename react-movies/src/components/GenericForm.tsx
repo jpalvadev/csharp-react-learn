@@ -12,7 +12,7 @@ import Loading from './Loading';
 export interface FieldConfig<TData> {
     name: keyof TData & string;
     label: string;
-    type: 'input' | 'textarea' | 'dateInput' | 'fileInput';
+    formField: 'input' | 'textarea' | 'dateInput' | 'fileInput';
     description?: string;
     colSpan?: number;
     onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -62,6 +62,7 @@ export default function GenericForm<TData extends Record<string, any>>({
         validators: { onSubmit: schema as any }, // eslint-disable-line @typescript-eslint/no-explicit-any
         onSubmit: async ({ value }) => {
             if (mode !== 'view' && onSubmit) {
+                console.log({ value });
                 onSubmit(value);
             }
         },
@@ -95,7 +96,7 @@ export default function GenericForm<TData extends Record<string, any>>({
                             <form.AppField name={f.name}>
                                 {(field) => {
                                     const renderField = () => {
-                                        switch (f.type) {
+                                        switch (f.formField) {
                                             case 'input':
                                                 return (
                                                     <field.Input

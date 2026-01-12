@@ -10,11 +10,11 @@ interface MovieFormProps {
 }
 
 const movieFields: FieldConfig<Movie>[] = [
-    { name: 'title', label: 'Movie Name', type: 'input' },
+    { name: 'title', label: 'Movie Name', formField: 'input' },
     {
         name: 'poster',
         label: 'Poster URL',
-        type: 'input',
+        formField: 'input',
         description: 'This is where the URL resides',
     },
 ];
