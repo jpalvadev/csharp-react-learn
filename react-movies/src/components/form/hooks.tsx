@@ -4,6 +4,7 @@ import FormTextarea from './FormTextarea';
 import FormSelect from './FormSelect';
 import FormCheckbox from './FormCheckbox';
 import FormFileInput from './FormFileInput';
+import FormCalendar from './FormCalendar';
 
 const { fieldContext, formContext, useFieldContext, useFormContext } =
     createFormHookContexts();
@@ -15,6 +16,7 @@ const { useAppForm } = createFormHook({
         Textarea: FormTextarea,
         Select: FormSelect,
         Checkbox: FormCheckbox,
+        Calendar: FormCalendar,
     },
     formComponents: {},
     fieldContext,

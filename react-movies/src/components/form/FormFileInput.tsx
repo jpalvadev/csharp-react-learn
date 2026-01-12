@@ -10,7 +10,7 @@ export default function FormFileInput(
     }
 ) {
     const [preview, setPreview] = useState<string>('');
-    const field = useFieldContext<File | null>();
+    const field = useFieldContext<File | string | null>();
     const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid;
 
     function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
@@ -26,27 +26,36 @@ export default function FormFileInput(
         }
     }
 
+    // Mostrar preview: archivo nuevo o URL existente
+    const displayPreview =
+        preview ||
+        (typeof field.state.value === 'string' ? field.state.value : '');
+
     return (
         <FormBase {...props}>
-            <Input
-                id={field.name}
-                name={field.name}
-                onBlur={field.handleBlur}
-                onChange={handleChange}
-                aria-invalid={isInvalid}
-                disabled={props.disabled}
-                type={props.type}
-                accept={props.accept}
-            />
-            {preview && (
-                <div className="mt-2">
-                    <img
-                        src={preview}
-                        alt="Preview"
-                        className="w-32 h-32 object-cover rounded"
+            <>
+                {!props.disabled && (
+                    <Input
+                        id={field.name}
+                        name={field.name}
+                        onBlur={field.handleBlur}
+                        onChange={handleChange}
+                        aria-invalid={isInvalid}
+                        disabled={props.disabled}
+                        type={props.type}
+                        accept={props.accept}
                     />
-                </div>
-            )}
+                )}
+                {displayPreview && (
+                    <div className="mt-2">
+                        <img
+                            src={displayPreview}
+                            alt="Preview"
+                            className="w-32 h-32 object-cover rounded"
+                        />
+                    </div>
+                )}
+            </>
         </FormBase>
     );
 }

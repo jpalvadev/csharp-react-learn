@@ -12,7 +12,7 @@ import Loading from './Loading';
 export interface FieldConfig<TData> {
     name: keyof TData & string;
     label: string;
-    formField: 'input' | 'textarea' | 'dateInput' | 'fileInput';
+    formField: 'input' | 'textarea' | 'fileInput' | 'calendar';
     description?: string;
     colSpan?: number;
     onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -123,21 +123,7 @@ export default function GenericForm<TData extends Record<string, any>>({
                                                         }
                                                     />
                                                 );
-                                            case 'dateInput':
-                                                return (
-                                                    <field.Input
-                                                        type="date"
-                                                        label={f.label}
-                                                        description={
-                                                            f.description
-                                                        }
-                                                        disabled={
-                                                            mode === 'view'
-                                                        }
-                                                        onChange={f.onChange}
-                                                        accept={f.accept}
-                                                    />
-                                                );
+
                                             case 'fileInput':
                                                 return (
                                                     <field.FileInput
@@ -151,6 +137,21 @@ export default function GenericForm<TData extends Record<string, any>>({
                                                         }
                                                         onChange={f.onChange}
                                                         accept={f.accept}
+                                                    />
+                                                );
+                                            case 'calendar':
+                                                console.log({ f });
+
+                                                return (
+                                                    <field.Calendar
+                                                        label={f.label}
+                                                        description={
+                                                            f.description
+                                                        }
+                                                        disabled={
+                                                            mode === 'view'
+                                                        }
+                                                        onChange={f.onChange}
                                                     />
                                                 );
                                             default:

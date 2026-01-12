@@ -10,11 +10,17 @@ const actorBaseSchema = z.object({
         .refine(...firstLetterUppercase()),
     dateOfBirth: z.coerce.date().refine(...dateNotInFuture()),
     picture: z
-        .file()
+        .union([z.instanceof(File), z.string()]) // puede ser file (front) o string(URL desde backend)
         .optional()
-        .refine((file) => file?.size <= 500000, {
-            message: 'Max file size is 500Kb',
-        }),
+        .refine(
+            (value) => {
+                if (value instanceof File) {
+                    return value.size <= 500000;
+                }
+                return true; // las URL siempre son válidas
+            },
+            { message: 'Max file size is 500Kb' }
+        ),
 });
 
 export const createActorSchema = actorBaseSchema;

@@ -1,6 +1,7 @@
 import ActorForm from '@/modules/actors/components/ActorForm';
+import { createActor } from '@/modules/actors/services/actor.service';
 import type { Actor } from '@/modules/actors/types/actor.type';
-import { createActor } from '@/modules/services/actor.service';
+
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { createFileRoute, useRouter } from '@tanstack/react-router';
 import { toast } from 'sonner';

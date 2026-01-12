@@ -24,9 +24,10 @@ export default function ActorForm({
         {
             name: 'dateOfBirth',
             label: 'Date Of Birth',
-            formField: 'dateInput',
+            formField: 'calendar',
             colSpan: 2,
         },
+
         {
             name: 'picture',
             label: 'Picture',
@@ -35,6 +36,8 @@ export default function ActorForm({
             accept: 'image/*',
         },
     ];
+
+    console.log({ initialData });
 
     return (
         <GenericForm
