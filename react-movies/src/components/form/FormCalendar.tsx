@@ -8,26 +8,22 @@ import { useFieldContext } from './hooks';
 
 export default function FormCalendar(
     props: FormControlProps & {
-        onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+        onChange?: (date: Date | undefined) => void; // Cambiado a Date
     }
 ) {
-    const field = useFieldContext<string>(); // Cambiar a string para ISO dates
+    const field = useFieldContext<Date>();
     const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid;
     const [open, setOpen] = useState(false);
 
-    // Convertir string ISO a Date para el calendario
-    const selectedDate = field.state.value
-        ? new Date(field.state.value)
-        : undefined;
+    const selectedDate = field.state.value;
 
     const handleDateSelect = (date: Date | undefined) => {
-        if (date) {
-            // Convertir Date a string ISO para el formulario
-            const isoString = date.toISOString().split('T')[0];
-            field.handleChange(isoString);
-        } else {
-            field.handleChange('');
-        }
+        if (!date) return;
+
+        field.handleChange(date); // pasamos el objeto date a tanstack
+
+        if (props.onChange) props.onChange(date); // por si las moscas necesitamos customizar el onchange
+
         setOpen(false);
     };
 
@@ -38,28 +34,26 @@ export default function FormCalendar(
                     <PopoverTrigger asChild disabled={props.disabled}>
                         <Button
                             variant="outline"
-                            id="date"
+                            id={field.name}
                             className="justify-between font-normal"
                         >
-                            {selectedDate
+                            {/* muestra fecha formateada al front, por debajo sigue siendo Date */}
+                            {selectedDate instanceof Date &&
+                            !isNaN(selectedDate.getTime())
                                 ? selectedDate.toLocaleDateString()
                                 : 'Select date'}
-                            <ChevronDownIcon />
+                            <ChevronDownIcon className="ml-2 h-4 w-4 opacity-50" />
                         </Button>
                     </PopoverTrigger>
-                    <PopoverContent
-                        className="w-auto overflow-hidden p-0"
-                        align="start"
-                    >
+                    <PopoverContent className="w-auto p-0" align="start">
                         <Calendar
-                            id={field.name}
-                            aria-invalid={isInvalid}
-                            disabled={props.disabled}
                             mode="single"
                             selected={selectedDate}
                             onSelect={handleDateSelect}
-                            className="rounded-md border shadow-sm"
+                            disabled={props.disabled}
                             captionLayout="dropdown"
+                            className="rounded-md border"
+                            aria-invalid={isInvalid}
                         />
                     </PopoverContent>
                 </Popover>
