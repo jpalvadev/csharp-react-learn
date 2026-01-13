@@ -12,11 +12,18 @@ import Loading from './Loading';
 export interface FieldConfig<TData> {
     name: keyof TData & string;
     label: string;
-    formField: 'input' | 'textarea' | 'fileInput' | 'calendar';
+    formField:
+        | 'input'
+        | 'textarea'
+        | 'fileInput'
+        | 'calendar'
+        | 'checkbox'
+        | 'select';
     description?: string;
     colSpan?: number;
     onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
     accept?: string;
+    children?: ReactNode;
 }
 
 interface GenericFormProps<TData extends Record<string, any>> {
@@ -151,8 +158,29 @@ export default function GenericForm<TData extends Record<string, any>>({
                                                         disabled={
                                                             mode === 'view'
                                                         }
-                                                        onChange={f.onChange}
                                                     />
+                                                );
+
+                                            case 'checkbox':
+                                                return (
+                                                    <field.Checkbox
+                                                        label={f.label}
+                                                        description={
+                                                            f.description
+                                                        }
+                                                        disabled={
+                                                            mode === 'view'
+                                                        }
+                                                    />
+                                                );
+                                            case 'select':
+                                                console.log(f.children);
+                                                return (
+                                                    <field.Select
+                                                        label={f.label}
+                                                    >
+                                                        {f.children}
+                                                    </field.Select>
                                                 );
                                             default:
                                                 return null;

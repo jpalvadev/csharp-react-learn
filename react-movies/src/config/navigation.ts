@@ -8,6 +8,7 @@ import {
     SpeechIcon,
     TheaterIcon,
     type LucideProps,
+    FactoryIcon,
 } from 'lucide-react';
 import type { ForwardRefExoticComponent, RefAttributes } from 'react';
 import type { FileRouteTypes } from '../routeTree.gen';
@@ -68,6 +69,14 @@ export const navigationConfig: INavigationConfig[] = [
                 menus: [
                     { title: 'Theaters List', to: '/theaters' },
                     { title: 'Create Theater', to: '/theaters/new' },
+                ],
+            },
+            {
+                title: 'Tratamientos Equipo',
+                icon: FactoryIcon,
+                menus: [
+                    { title: 'Listado', to: '/tratamientosEquipo' },
+                    { title: 'Crear Registro', to: '/tratamientosEquipo/new' },
                 ],
             },
         ],

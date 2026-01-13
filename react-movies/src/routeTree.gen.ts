@@ -12,10 +12,13 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as TratamientosEquipoIndexRouteImport } from './routes/tratamientosEquipo/index'
 import { Route as TheatersIndexRouteImport } from './routes/theaters/index'
 import { Route as MoviesIndexRouteImport } from './routes/movies/index'
 import { Route as GenresIndexRouteImport } from './routes/genres/index'
 import { Route as ActorsIndexRouteImport } from './routes/actors/index'
+import { Route as TratamientosEquipoNewRouteImport } from './routes/tratamientosEquipo/new'
+import { Route as TratamientosEquipoIdRouteImport } from './routes/tratamientosEquipo/$id'
 import { Route as TheatersNewRouteImport } from './routes/theaters/new'
 import { Route as TheatersIdRouteImport } from './routes/theaters/$id'
 import { Route as MoviesNewRouteImport } from './routes/movies/new'
@@ -24,10 +27,12 @@ import { Route as GenresNewRouteImport } from './routes/genres/new'
 import { Route as GenresIdRouteImport } from './routes/genres/$id'
 import { Route as ActorsNewRouteImport } from './routes/actors/new'
 import { Route as ActorsIdRouteImport } from './routes/actors/$id'
+import { Route as TratamientosEquipoIdIndexRouteImport } from './routes/tratamientosEquipo/$id/index'
 import { Route as TheatersIdIndexRouteImport } from './routes/theaters/$id/index'
 import { Route as MoviesIdIndexRouteImport } from './routes/movies/$id/index'
 import { Route as GenresIdIndexRouteImport } from './routes/genres/$id/index'
 import { Route as ActorsIdIndexRouteImport } from './routes/actors/$id/index'
+import { Route as TratamientosEquipoIdEditRouteImport } from './routes/tratamientosEquipo/$id/edit'
 import { Route as TheatersIdEditRouteImport } from './routes/theaters/$id/edit'
 import { Route as MoviesIdEditRouteImport } from './routes/movies/$id/edit'
 import { Route as GenresIdEditRouteImport } from './routes/genres/$id/edit'
@@ -48,6 +53,11 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const TratamientosEquipoIndexRoute = TratamientosEquipoIndexRouteImport.update({
+  id: '/tratamientosEquipo/',
+  path: '/tratamientosEquipo/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const TheatersIndexRoute = TheatersIndexRouteImport.update({
   id: '/theaters/',
   path: '/theaters/',
@@ -66,6 +76,16 @@ const GenresIndexRoute = GenresIndexRouteImport.update({
 const ActorsIndexRoute = ActorsIndexRouteImport.update({
   id: '/actors/',
   path: '/actors/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TratamientosEquipoNewRoute = TratamientosEquipoNewRouteImport.update({
+  id: '/tratamientosEquipo/new',
+  path: '/tratamientosEquipo/new',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TratamientosEquipoIdRoute = TratamientosEquipoIdRouteImport.update({
+  id: '/tratamientosEquipo/$id',
+  path: '/tratamientosEquipo/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
 const TheatersNewRoute = TheatersNewRouteImport.update({
@@ -108,6 +128,12 @@ const ActorsIdRoute = ActorsIdRouteImport.update({
   path: '/actors/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
+const TratamientosEquipoIdIndexRoute =
+  TratamientosEquipoIdIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => TratamientosEquipoIdRoute,
+  } as any)
 const TheatersIdIndexRoute = TheatersIdIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -128,6 +154,12 @@ const ActorsIdIndexRoute = ActorsIdIndexRouteImport.update({
   path: '/',
   getParentRoute: () => ActorsIdRoute,
 } as any)
+const TratamientosEquipoIdEditRoute =
+  TratamientosEquipoIdEditRouteImport.update({
+    id: '/edit',
+    path: '/edit',
+    getParentRoute: () => TratamientosEquipoIdRoute,
+  } as any)
 const TheatersIdEditRoute = TheatersIdEditRouteImport.update({
   id: '/edit',
   path: '/edit',
@@ -161,18 +193,23 @@ export interface FileRoutesByFullPath {
   '/movies/new': typeof MoviesNewRoute
   '/theaters/$id': typeof TheatersIdRouteWithChildren
   '/theaters/new': typeof TheatersNewRoute
+  '/tratamientosEquipo/$id': typeof TratamientosEquipoIdRouteWithChildren
+  '/tratamientosEquipo/new': typeof TratamientosEquipoNewRoute
   '/actors': typeof ActorsIndexRoute
   '/genres': typeof GenresIndexRoute
   '/movies': typeof MoviesIndexRoute
   '/theaters': typeof TheatersIndexRoute
+  '/tratamientosEquipo': typeof TratamientosEquipoIndexRoute
   '/actors/$id/edit': typeof ActorsIdEditRoute
   '/genres/$id/edit': typeof GenresIdEditRoute
   '/movies/$id/edit': typeof MoviesIdEditRoute
   '/theaters/$id/edit': typeof TheatersIdEditRoute
+  '/tratamientosEquipo/$id/edit': typeof TratamientosEquipoIdEditRoute
   '/actors/$id/': typeof ActorsIdIndexRoute
   '/genres/$id/': typeof GenresIdIndexRoute
   '/movies/$id/': typeof MoviesIdIndexRoute
   '/theaters/$id/': typeof TheatersIdIndexRoute
+  '/tratamientosEquipo/$id/': typeof TratamientosEquipoIdIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -182,18 +219,22 @@ export interface FileRoutesByTo {
   '/genres/new': typeof GenresNewRoute
   '/movies/new': typeof MoviesNewRoute
   '/theaters/new': typeof TheatersNewRoute
+  '/tratamientosEquipo/new': typeof TratamientosEquipoNewRoute
   '/actors': typeof ActorsIndexRoute
   '/genres': typeof GenresIndexRoute
   '/movies': typeof MoviesIndexRoute
   '/theaters': typeof TheatersIndexRoute
+  '/tratamientosEquipo': typeof TratamientosEquipoIndexRoute
   '/actors/$id/edit': typeof ActorsIdEditRoute
   '/genres/$id/edit': typeof GenresIdEditRoute
   '/movies/$id/edit': typeof MoviesIdEditRoute
   '/theaters/$id/edit': typeof TheatersIdEditRoute
+  '/tratamientosEquipo/$id/edit': typeof TratamientosEquipoIdEditRoute
   '/actors/$id': typeof ActorsIdIndexRoute
   '/genres/$id': typeof GenresIdIndexRoute
   '/movies/$id': typeof MoviesIdIndexRoute
   '/theaters/$id': typeof TheatersIdIndexRoute
+  '/tratamientosEquipo/$id': typeof TratamientosEquipoIdIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -208,18 +249,23 @@ export interface FileRoutesById {
   '/movies/new': typeof MoviesNewRoute
   '/theaters/$id': typeof TheatersIdRouteWithChildren
   '/theaters/new': typeof TheatersNewRoute
+  '/tratamientosEquipo/$id': typeof TratamientosEquipoIdRouteWithChildren
+  '/tratamientosEquipo/new': typeof TratamientosEquipoNewRoute
   '/actors/': typeof ActorsIndexRoute
   '/genres/': typeof GenresIndexRoute
   '/movies/': typeof MoviesIndexRoute
   '/theaters/': typeof TheatersIndexRoute
+  '/tratamientosEquipo/': typeof TratamientosEquipoIndexRoute
   '/actors/$id/edit': typeof ActorsIdEditRoute
   '/genres/$id/edit': typeof GenresIdEditRoute
   '/movies/$id/edit': typeof MoviesIdEditRoute
   '/theaters/$id/edit': typeof TheatersIdEditRoute
+  '/tratamientosEquipo/$id/edit': typeof TratamientosEquipoIdEditRoute
   '/actors/$id/': typeof ActorsIdIndexRoute
   '/genres/$id/': typeof GenresIdIndexRoute
   '/movies/$id/': typeof MoviesIdIndexRoute
   '/theaters/$id/': typeof TheatersIdIndexRoute
+  '/tratamientosEquipo/$id/': typeof TratamientosEquipoIdIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -235,18 +281,23 @@ export interface FileRouteTypes {
     | '/movies/new'
     | '/theaters/$id'
     | '/theaters/new'
+    | '/tratamientosEquipo/$id'
+    | '/tratamientosEquipo/new'
     | '/actors'
     | '/genres'
     | '/movies'
     | '/theaters'
+    | '/tratamientosEquipo'
     | '/actors/$id/edit'
     | '/genres/$id/edit'
     | '/movies/$id/edit'
     | '/theaters/$id/edit'
+    | '/tratamientosEquipo/$id/edit'
     | '/actors/$id/'
     | '/genres/$id/'
     | '/movies/$id/'
     | '/theaters/$id/'
+    | '/tratamientosEquipo/$id/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -256,18 +307,22 @@ export interface FileRouteTypes {
     | '/genres/new'
     | '/movies/new'
     | '/theaters/new'
+    | '/tratamientosEquipo/new'
     | '/actors'
     | '/genres'
     | '/movies'
     | '/theaters'
+    | '/tratamientosEquipo'
     | '/actors/$id/edit'
     | '/genres/$id/edit'
     | '/movies/$id/edit'
     | '/theaters/$id/edit'
+    | '/tratamientosEquipo/$id/edit'
     | '/actors/$id'
     | '/genres/$id'
     | '/movies/$id'
     | '/theaters/$id'
+    | '/tratamientosEquipo/$id'
   id:
     | '__root__'
     | '/'
@@ -281,18 +336,23 @@ export interface FileRouteTypes {
     | '/movies/new'
     | '/theaters/$id'
     | '/theaters/new'
+    | '/tratamientosEquipo/$id'
+    | '/tratamientosEquipo/new'
     | '/actors/'
     | '/genres/'
     | '/movies/'
     | '/theaters/'
+    | '/tratamientosEquipo/'
     | '/actors/$id/edit'
     | '/genres/$id/edit'
     | '/movies/$id/edit'
     | '/theaters/$id/edit'
+    | '/tratamientosEquipo/$id/edit'
     | '/actors/$id/'
     | '/genres/$id/'
     | '/movies/$id/'
     | '/theaters/$id/'
+    | '/tratamientosEquipo/$id/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -307,10 +367,13 @@ export interface RootRouteChildren {
   MoviesNewRoute: typeof MoviesNewRoute
   TheatersIdRoute: typeof TheatersIdRouteWithChildren
   TheatersNewRoute: typeof TheatersNewRoute
+  TratamientosEquipoIdRoute: typeof TratamientosEquipoIdRouteWithChildren
+  TratamientosEquipoNewRoute: typeof TratamientosEquipoNewRoute
   ActorsIndexRoute: typeof ActorsIndexRoute
   GenresIndexRoute: typeof GenresIndexRoute
   MoviesIndexRoute: typeof MoviesIndexRoute
   TheatersIndexRoute: typeof TheatersIndexRoute
+  TratamientosEquipoIndexRoute: typeof TratamientosEquipoIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -334,6 +397,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/tratamientosEquipo/': {
+      id: '/tratamientosEquipo/'
+      path: '/tratamientosEquipo'
+      fullPath: '/tratamientosEquipo'
+      preLoaderRoute: typeof TratamientosEquipoIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/theaters/': {
@@ -362,6 +432,20 @@ declare module '@tanstack/react-router' {
       path: '/actors'
       fullPath: '/actors'
       preLoaderRoute: typeof ActorsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/tratamientosEquipo/new': {
+      id: '/tratamientosEquipo/new'
+      path: '/tratamientosEquipo/new'
+      fullPath: '/tratamientosEquipo/new'
+      preLoaderRoute: typeof TratamientosEquipoNewRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/tratamientosEquipo/$id': {
+      id: '/tratamientosEquipo/$id'
+      path: '/tratamientosEquipo/$id'
+      fullPath: '/tratamientosEquipo/$id'
+      preLoaderRoute: typeof TratamientosEquipoIdRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/theaters/new': {
@@ -420,6 +504,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ActorsIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/tratamientosEquipo/$id/': {
+      id: '/tratamientosEquipo/$id/'
+      path: '/'
+      fullPath: '/tratamientosEquipo/$id/'
+      preLoaderRoute: typeof TratamientosEquipoIdIndexRouteImport
+      parentRoute: typeof TratamientosEquipoIdRoute
+    }
     '/theaters/$id/': {
       id: '/theaters/$id/'
       path: '/'
@@ -447,6 +538,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/actors/$id/'
       preLoaderRoute: typeof ActorsIdIndexRouteImport
       parentRoute: typeof ActorsIdRoute
+    }
+    '/tratamientosEquipo/$id/edit': {
+      id: '/tratamientosEquipo/$id/edit'
+      path: '/edit'
+      fullPath: '/tratamientosEquipo/$id/edit'
+      preLoaderRoute: typeof TratamientosEquipoIdEditRouteImport
+      parentRoute: typeof TratamientosEquipoIdRoute
     }
     '/theaters/$id/edit': {
       id: '/theaters/$id/edit'
@@ -535,6 +633,19 @@ const TheatersIdRouteWithChildren = TheatersIdRoute._addFileChildren(
   TheatersIdRouteChildren,
 )
 
+interface TratamientosEquipoIdRouteChildren {
+  TratamientosEquipoIdEditRoute: typeof TratamientosEquipoIdEditRoute
+  TratamientosEquipoIdIndexRoute: typeof TratamientosEquipoIdIndexRoute
+}
+
+const TratamientosEquipoIdRouteChildren: TratamientosEquipoIdRouteChildren = {
+  TratamientosEquipoIdEditRoute: TratamientosEquipoIdEditRoute,
+  TratamientosEquipoIdIndexRoute: TratamientosEquipoIdIndexRoute,
+}
+
+const TratamientosEquipoIdRouteWithChildren =
+  TratamientosEquipoIdRoute._addFileChildren(TratamientosEquipoIdRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
@@ -547,10 +658,13 @@ const rootRouteChildren: RootRouteChildren = {
   MoviesNewRoute: MoviesNewRoute,
   TheatersIdRoute: TheatersIdRouteWithChildren,
   TheatersNewRoute: TheatersNewRoute,
+  TratamientosEquipoIdRoute: TratamientosEquipoIdRouteWithChildren,
+  TratamientosEquipoNewRoute: TratamientosEquipoNewRoute,
   ActorsIndexRoute: ActorsIndexRoute,
   GenresIndexRoute: GenresIndexRoute,
   MoviesIndexRoute: MoviesIndexRoute,
   TheatersIndexRoute: TheatersIndexRoute,
+  TratamientosEquipoIndexRoute: TratamientosEquipoIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
