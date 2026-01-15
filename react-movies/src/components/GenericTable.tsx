@@ -53,11 +53,13 @@ import {
 
 import { Popover, PopoverContent, PopoverTrigger } from './ui/popover';
 import { Label } from './ui/label';
+import { Calendar } from './ui/calendar';
+import type { DateRange } from 'react-day-picker';
 
 export const DEFAULT_PAGE_INDEX = 0;
 export const DEFAULT_PAGE_SIZE = 10;
 
-type Props<T extends Record<string, string | number>> = {
+type Props<T extends Record<string, string | number | Date | File>> = {
     data: T[];
     columns: ColumnDef<T>[];
     pagination: PaginationState;
@@ -72,7 +74,7 @@ type Props<T extends Record<string, string | number>> = {
 };
 
 export default function GenericTable<
-    T extends Record<string, string | number>,
+    T extends Record<string, string | number | Date | File>,
 >({
     data,
     columns,
@@ -86,6 +88,10 @@ export default function GenericTable<
     const [columnVisibility, setColumnVisibility] = useState<VisibilityState>(
         {}
     );
+    const [dateRange, setDateRange] = useState<DateRange | undefined>({
+        from: new Date(),
+        to: new Date(),
+    });
 
     const table = useReactTable({
         data,
@@ -110,6 +116,14 @@ export default function GenericTable<
                                 {headerGroup.headers.map((header) => {
                                     const fieldMeta =
                                         header.column.columnDef.meta;
+
+                                    // Extraemos el valor actual del filtro para este campo
+                                    const currentFilterValue =
+                                        fieldMeta?.filterKey
+                                            ? ((filters[
+                                                  fieldMeta.filterKey as keyof T
+                                              ] as string) ?? '')
+                                            : '';
                                     return (
                                         <TableHead key={header.id}>
                                             {header.column.getCanSort() ? (
@@ -169,36 +183,118 @@ export default function GenericTable<
                                                                     className="cursor-pointer"
                                                                 />
                                                             </PopoverTrigger>
-                                                            <PopoverContent className="w-64 flex gap-4">
-                                                                <Label htmlFor="width">
-                                                                    Filtrar
+
+                                                            <PopoverContent className="w-full flex flex-col gap-4">
+                                                                <Label>
+                                                                    Filtrar por{' '}
+                                                                    {
+                                                                        header
+                                                                            .column
+                                                                            .columnDef
+                                                                            .meta
+                                                                            ?.headerText
+                                                                    }
                                                                 </Label>
-                                                                <DebouncedInput
-                                                                    className="w-36 border shadow rounded"
-                                                                    onChange={(
-                                                                        value
-                                                                    ) => {
-                                                                        onFilterChange(
-                                                                            {
-                                                                                [fieldMeta.filterKey as keyof T]:
-                                                                                    value,
-                                                                            } as Partial<T>
-                                                                        );
-                                                                    }}
-                                                                    placeholder="Filtrar por..."
-                                                                    type={
-                                                                        fieldMeta.filterVariant ===
-                                                                        'number'
-                                                                            ? 'number'
-                                                                            : 'text'
-                                                                    }
-                                                                    value={
-                                                                        filters[
-                                                                            fieldMeta
-                                                                                .filterKey
-                                                                        ] ?? ''
-                                                                    }
-                                                                />
+
+                                                                {/* RENDERIZADO DINÁMICO DEL FILTRO */}
+                                                                {fieldMeta.filterVariant ===
+                                                                'date' ? (
+                                                                    <Calendar
+                                                                        mode="range"
+                                                                        defaultMonth={
+                                                                            dateRange?.from
+                                                                        }
+                                                                        numberOfMonths={
+                                                                            2
+                                                                        }
+                                                                        selected={
+                                                                            dateRange
+                                                                        }
+                                                                        onSelect={(
+                                                                            value
+                                                                        ) => {
+                                                                            setDateRange(
+                                                                                value
+                                                                            );
+
+                                                                            setDateRange(
+                                                                                value
+                                                                            );
+
+                                                                            const filterKey =
+                                                                                fieldMeta.filterKey as string;
+                                                                            const filterUpdate: Record<
+                                                                                string,
+                                                                                | string
+                                                                                | undefined
+                                                                            > =
+                                                                                {};
+
+                                                                            if (
+                                                                                value?.from
+                                                                            ) {
+                                                                                filterUpdate[
+                                                                                    `${filterKey}.from`
+                                                                                ] =
+                                                                                    value.from.toLocaleDateString(
+                                                                                        'en-CA' // YYYY-MM-DD
+                                                                                    );
+                                                                            } else {
+                                                                                // Si no hay 'from', eliminamos el filtro de la URL
+                                                                                filterUpdate[
+                                                                                    `${filterKey}.from`
+                                                                                ] =
+                                                                                    undefined;
+                                                                            }
+
+                                                                            if (
+                                                                                value?.to
+                                                                            ) {
+                                                                                filterUpdate[
+                                                                                    `${filterKey}.to`
+                                                                                ] =
+                                                                                    value.to.toLocaleDateString(
+                                                                                        'en-CA'
+                                                                                    );
+                                                                            } else {
+                                                                                filterUpdate[
+                                                                                    `${filterKey}.to`
+                                                                                ] =
+                                                                                    undefined;
+                                                                            }
+
+                                                                            onFilterChange(
+                                                                                filterUpdate as Partial<T>
+                                                                            );
+                                                                        }}
+                                                                        captionLayout="dropdown"
+                                                                        className="rounded-md border w-full"
+                                                                    />
+                                                                ) : (
+                                                                    <DebouncedInput
+                                                                        className="w-full border shadow rounded"
+                                                                        onChange={(
+                                                                            value
+                                                                        ) => {
+                                                                            onFilterChange(
+                                                                                {
+                                                                                    [fieldMeta.filterKey as keyof T]:
+                                                                                        value,
+                                                                                } as Partial<T>
+                                                                            );
+                                                                        }}
+                                                                        placeholder="Filtrar..."
+                                                                        type={
+                                                                            fieldMeta.filterVariant ===
+                                                                            'number'
+                                                                                ? 'number'
+                                                                                : 'text'
+                                                                        }
+                                                                        value={
+                                                                            currentFilterValue
+                                                                        }
+                                                                    />
+                                                                )}
                                                             </PopoverContent>
                                                         </Popover>
                                                     ) : null}

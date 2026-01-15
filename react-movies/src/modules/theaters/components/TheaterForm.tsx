@@ -13,6 +13,7 @@ type TheaterFormProps = {
 const defaultTheater: Theater = {
     id: 0,
     name: '',
+    location: [],
 };
 
 export default function TheaterForm({
@@ -21,6 +22,7 @@ export default function TheaterForm({
 }: TheaterFormProps) {
     const theaterFields: FieldConfig<Theater>[] = [
         { name: 'name', label: 'Name', formField: 'input', colSpan: 4 },
+        { name: 'location', label: 'Map', formField: 'leaflet', colSpan: 4 },
     ];
 
     return (

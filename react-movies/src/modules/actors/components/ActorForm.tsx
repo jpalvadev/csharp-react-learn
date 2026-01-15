@@ -37,8 +37,6 @@ export default function ActorForm({
         },
     ];
 
-    console.log({ initialData });
-
     return (
         <GenericForm
             initialData={initialData}

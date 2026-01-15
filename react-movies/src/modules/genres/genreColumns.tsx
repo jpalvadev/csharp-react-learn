@@ -1,5 +1,4 @@
-import { type ColumnDef, type RowData } from '@tanstack/react-table';
-import { type Genre } from './types/genre.type';
+import { Button } from '@/components/ui/button';
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -8,18 +7,11 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { Button } from '@/components/ui/button';
-import { MoreHorizontal } from 'lucide-react';
 import { Link } from '@tanstack/react-router';
+import { type ColumnDef } from '@tanstack/react-table';
+import { MoreHorizontal } from 'lucide-react';
 import { toast } from 'sonner';
-
-declare module '@tanstack/react-table' {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    interface ColumnMeta<TData extends RowData, TValue> {
-        filterKey?: keyof TData;
-        filterVariant?: 'text' | 'number';
-    }
-}
+import { type Genre } from './types/genre.type';
 
 export const GENRE_COLUMNS: ColumnDef<Genre>[] = [
     {

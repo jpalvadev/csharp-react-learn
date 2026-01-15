@@ -18,7 +18,8 @@ declare module '@tanstack/react-table' {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     interface ColumnMeta<TData extends RowData, TValue> {
         filterKey?: keyof TData;
-        filterVariant?: 'text' | 'number';
+        filterVariant?: 'text' | 'number' | 'date';
+        headerText?: string;
     }
 }
 
@@ -26,18 +27,32 @@ export const MOVIE_COLUMNS: ColumnDef<Movie>[] = [
     {
         accessorKey: 'id',
         header: () => <span>Id</span>,
+
         meta: { filterKey: 'id', filterVariant: 'number' },
     },
     {
         accessorKey: 'title',
         header: () => <span>Movie</span>,
-        meta: { filterKey: 'title' },
+        meta: { filterKey: 'title', headerText: 'Title' },
+    },
+    {
+        accessorKey: 'releaseDate',
+        header: () => <span>Release Date</span>,
+        cell: ({ getValue }) => {
+            const fecha = getValue() as Date;
+            return fecha.toLocaleDateString('es-AR');
+        },
+        meta: {
+            filterKey: 'releaseDate',
+            filterVariant: 'date',
+            headerText: 'Release Date',
+        },
     },
 
     {
-        accessorKey: 'poster',
-        header: () => <span>Poster URL</span>,
-        meta: { filterKey: 'poster' },
+        accessorKey: 'trailer',
+        header: () => <span>Trailer URL</span>,
+        meta: { filterKey: 'trailer', headerText: 'Trailer' },
     },
     {
         id: 'actions',

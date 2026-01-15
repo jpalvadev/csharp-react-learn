@@ -19,7 +19,6 @@ export const Route = createFileRoute('/actors/$id/edit')({
 function EditActorRoute() {
     const router = useRouter();
     const actor = Route.useLoaderData();
-    console.log(actor);
 
     const queryClient = useQueryClient();
 

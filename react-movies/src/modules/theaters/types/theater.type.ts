@@ -1,3 +1,4 @@
+import { coordinateSchema } from '@/types/coordinate.type';
 import type { Filters } from '@/types/table.type';
 import { firstLetterUppercase } from '@/utils/validations';
 import * as z from 'zod';
@@ -8,6 +9,7 @@ const theaterBaseSchema = z.object({
         .min(3, 'Theater Name must have at least 3 letters')
         .max(50, 'Theater Name can have a maximum of 50 letters')
         .refine(...[firstLetterUppercase]),
+    location: z.array(coordinateSchema),
 });
 
 export const createTheaterSchema = theaterBaseSchema;

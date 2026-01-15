@@ -1,4 +1,4 @@
-import { type ColumnDef, type RowData } from '@tanstack/react-table';
+import { type ColumnDef } from '@tanstack/react-table';
 import { type TratamientoEquipo } from './types/tratamientoEquipo.type';
 import {
     DropdownMenu,
@@ -12,14 +12,6 @@ import { Button } from '@/components/ui/button';
 import { MoreHorizontal } from 'lucide-react';
 import { Link } from '@tanstack/react-router';
 import { toast } from 'sonner';
-
-declare module '@tanstack/react-table' {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    interface ColumnMeta<TData extends RowData, TValue> {
-        filterKey?: keyof TData;
-        filterVariant?: 'text' | 'number';
-    }
-}
 
 export const TRATAMIENTOEQUIPO_COLUMNS: ColumnDef<TratamientoEquipo>[] = [
     {

@@ -10,19 +10,42 @@ interface MovieFormProps {
 }
 
 const movieFields: FieldConfig<Movie>[] = [
-    { name: 'title', label: 'Movie Name', formField: 'input' },
+    { name: 'title', label: 'Movie Name', formField: 'input', colSpan: 2 },
     {
-        name: 'poster',
+        name: 'releaseDate',
+        label: 'Release Date',
+        formField: 'calendar',
+        colSpan: 2,
+    },
+    {
+        name: 'picture',
         label: 'Poster URL',
+        formField: 'fileInput',
+        accept: 'image/*',
+    },
+    {
+        name: 'trailer',
+        label: 'Trailer URL',
         formField: 'input',
         description: 'This is where the URL resides',
     },
+
+    {
+        name: 'genre',
+        label: 'Genres',
+        formField: 'multi-select',
+    },
 ];
 
-const defaultMovie: Movie = { id: 0, title: '', poster: '' };
+const defaultMovie: Partial<Movie> = {
+    id: 0,
+    title: '',
+    picture: '',
+    trailer: '',
+};
 
 export default function MovieForm({
-    initialData = defaultMovie,
+    initialData = defaultMovie as Movie,
     ...rest
 }: MovieFormProps) {
     return (

@@ -9,11 +9,7 @@ import { MOVIE_COLUMNS } from '@/modules/movies/movieColumns';
 import { getMovies } from '@/modules/movies/services/movie.service';
 import type { MovieFilters } from '@/modules/movies/types/movie.type';
 import { sortByToState, stateToSortBy } from '@/utils/tableSortMapper';
-import {
-    keepPreviousData,
-    useQuery,
-    useQueryClient,
-} from '@tanstack/react-query';
+import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import { createFileRoute, Link } from '@tanstack/react-router';
 import { useMemo } from 'react';
 

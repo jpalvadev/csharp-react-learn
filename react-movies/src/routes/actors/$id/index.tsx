@@ -14,7 +14,5 @@ export const Route = createFileRoute('/actors/$id/')({
 function ActorByIdRoute() {
     const actor = Route.useLoaderData();
 
-    console.log({ actor });
-
     return <ActorForm mode="view" initialData={actor} isPending={false} />;
 }

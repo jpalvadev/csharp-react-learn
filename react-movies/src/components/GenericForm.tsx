@@ -18,12 +18,15 @@ export interface FieldConfig<TData> {
         | 'fileInput'
         | 'calendar'
         | 'checkbox'
-        | 'select';
+        | 'select'
+        | 'multi-select'
+        | 'leaflet';
     description?: string;
     colSpan?: number;
     onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
     accept?: string;
     children?: ReactNode;
+    data?: TData;
 }
 
 interface GenericFormProps<TData extends Record<string, any>> {
@@ -69,7 +72,6 @@ export default function GenericForm<TData extends Record<string, any>>({
         validators: { onSubmit: schema as any }, // eslint-disable-line @typescript-eslint/no-explicit-any
         onSubmit: async ({ value }) => {
             if (mode !== 'view' && onSubmit) {
-                console.log({ value });
                 onSubmit(value);
             }
         },
@@ -147,8 +149,6 @@ export default function GenericForm<TData extends Record<string, any>>({
                                                     />
                                                 );
                                             case 'calendar':
-                                                console.log({ f });
-
                                                 return (
                                                     <field.Calendar
                                                         label={f.label}
@@ -174,13 +174,27 @@ export default function GenericForm<TData extends Record<string, any>>({
                                                     />
                                                 );
                                             case 'select':
-                                                console.log(f.children);
                                                 return (
                                                     <field.Select
                                                         label={f.label}
                                                     >
                                                         {f.children}
                                                     </field.Select>
+                                                );
+                                            case 'leaflet':
+                                                return (
+                                                    <field.Leaflet
+                                                        label={f.label}
+                                                        disabled={
+                                                            mode === 'view'
+                                                        }
+                                                    />
+                                                );
+                                            case 'multi-select':
+                                                return (
+                                                    <field.MultiSelect
+                                                        label={f.label}
+                                                    />
                                                 );
                                             default:
                                                 return null;
