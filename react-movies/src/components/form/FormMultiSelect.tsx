@@ -1,32 +1,37 @@
-import { MultiSelect } from '../multi-select';
+import { type ReactNode } from 'react';
 import { FormBase, type FormControlProps } from './FormBase';
 import { useFieldContext } from './hooks';
 
-const frameworksList = [
-    { value: 'next.js', label: 'Next.js' },
-    { value: 'react', label: 'React' },
-    { value: 'vue', label: 'Vue.js' },
-    { value: 'angular', label: 'Angular' },
-];
+import {
+    MultiSelect,
+    MultiSelectContent,
+    MultiSelectGroup,
+    MultiSelectTrigger,
+    MultiSelectValue,
+} from '@/components/ui/multi-select';
+
+type OverflowBehavior = 'wrap-when-open' | 'wrap' | 'cutoff';
 
 export default function FormMultiSelect({
-    // children,
+    children,
     ...props
-}: FormControlProps) {
+}: FormControlProps & { children: ReactNode }) {
     const field = useFieldContext<string[]>();
-    // const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid;
+    const overflowBehavior: OverflowBehavior = 'wrap';
 
     return (
         <FormBase {...props}>
             <MultiSelect
-                options={frameworksList}
-                value={field.state.value}
-                onValueChange={(e) => {
-                    console.log(field.state.value);
-                    field.handleChange(e);
-                }}
-                placeholder="Select..."
-            />
+                onValuesChange={(e) => field.handleChange(e)}
+                values={field.state.value}
+            >
+                <MultiSelectTrigger className="w-full">
+                    <MultiSelectValue overflowBehavior={overflowBehavior} />
+                </MultiSelectTrigger>
+                <MultiSelectContent>
+                    <MultiSelectGroup>{children}</MultiSelectGroup>
+                </MultiSelectContent>
+            </MultiSelect>
         </FormBase>
     );
 }

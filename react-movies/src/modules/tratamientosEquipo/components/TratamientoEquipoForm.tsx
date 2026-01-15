@@ -1,15 +1,15 @@
+import type { FieldConfig } from '@/components/GenericForm';
+import GenericForm from '@/components/GenericForm';
+import Loading from '@/components/Loading';
+import { MultiSelectItem } from '@/components/ui/multi-select';
+import { getActors } from '@/modules/actors/services/actor.service';
 import type { FormMode } from '@/types/FormMode.type';
+import { useQuery } from '@tanstack/react-query';
+import type { ReactNode } from 'react';
 import {
     tratamientoEquipoSchema,
     type TratamientoEquipo,
 } from '../types/tratamientoEquipo.type';
-import type { FieldConfig } from '@/components/GenericForm';
-import GenericForm from '@/components/GenericForm';
-import { useQuery } from '@tanstack/react-query';
-import { getActors } from '@/modules/actors/services/actor.service';
-import type { ReactNode } from 'react';
-import { SelectItem } from '@/components/ui/select';
-import Loading from '@/components/Loading';
 
 type TratamientoEquipoFormProps = {
     initialData?: TratamientoEquipo;
@@ -25,7 +25,7 @@ const defaultTratamientoEquipo: TratamientoEquipo = {
     preventivo: false,
     actividad: '',
     observaciones: '',
-    operador: '',
+    operador: [],
 };
 
 export default function TratamientoEquipoForm({
@@ -40,10 +40,10 @@ export default function TratamientoEquipoForm({
 
     if (isDataPending) return <Loading />;
 
-    const children: ReactNode = data?.result.map((actor) => (
-        <SelectItem key={actor.id} value={actor.id.toString()}>
+    const multiSelectChildren: ReactNode = data?.result.map((actor) => (
+        <MultiSelectItem key={actor.id} value={actor.id.toString()}>
             {actor.name}
-        </SelectItem>
+        </MultiSelectItem>
     ));
 
     const tratamientoequipoFields: FieldConfig<TratamientoEquipo>[] = [
@@ -67,12 +67,13 @@ export default function TratamientoEquipoForm({
             label: 'Observaciones',
             formField: 'textarea',
         },
+
         {
             name: 'operador',
             label: 'Operador',
-            formField: 'select',
+            formField: 'multi-select',
             colSpan: 2,
-            children: children,
+            children: multiSelectChildren,
         },
     ];
 

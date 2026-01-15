@@ -15,8 +15,9 @@ function RouteComponent() {
 
     const { mutate, isPending } = useMutation({
         mutationFn: (data: TratamientoEquipo) => createTratamientoEquipo(data),
-        onSuccess: () => {
+        onSuccess: (data) => {
             queryClient.invalidateQueries({ queryKey: ['tratamientosEquipo'] });
+            console.log(data);
             toast('Tratamiento Equipo creado', {
                 description: 'Se creó un nuevo registro satisfactoriamente',
                 position: 'top-center',

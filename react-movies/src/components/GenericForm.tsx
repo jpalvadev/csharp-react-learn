@@ -194,7 +194,9 @@ export default function GenericForm<TData extends Record<string, any>>({
                                                 return (
                                                     <field.MultiSelect
                                                         label={f.label}
-                                                    />
+                                                    >
+                                                        {f.children}
+                                                    </field.MultiSelect>
                                                 );
                                             default:
                                                 return null;

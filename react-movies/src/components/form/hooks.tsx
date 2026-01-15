@@ -1,11 +1,11 @@
 import { createFormHook, createFormHookContexts } from '@tanstack/react-form';
-import FormInput from './FormInput';
-import FormTextarea from './FormTextarea';
-import FormSelect from './FormSelect';
+import FormCalendar from './FormCalendar';
 import FormCheckbox from './FormCheckbox';
 import FormFileInput from './FormFileInput';
-import FormCalendar from './FormCalendar';
+import FormInput from './FormInput';
 import FormLeaflet from './FormLeaflet';
+import FormSelect from './FormSelect';
+import FormTextarea from './FormTextarea';
 import FormMultiSelect from './FormMultiSelect';
 
 const { fieldContext, formContext, useFieldContext, useFormContext } =
@@ -18,6 +18,7 @@ const { useAppForm } = createFormHook({
         Textarea: FormTextarea,
         Select: FormSelect,
         MultiSelect: FormMultiSelect,
+
         Checkbox: FormCheckbox,
         Calendar: FormCalendar,
         Leaflet: FormLeaflet,
