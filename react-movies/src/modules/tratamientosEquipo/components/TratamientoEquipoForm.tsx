@@ -5,7 +5,7 @@ import { MultiSelectItem } from '@/components/ui/multi-select';
 import { getActors } from '@/modules/actors/services/actor.service';
 import type { FormMode } from '@/types/FormMode.type';
 import { useQuery } from '@tanstack/react-query';
-import type { ReactNode } from 'react';
+import { useState, type ReactNode } from 'react';
 import {
     tratamientoEquipoSchema,
     type TratamientoEquipo,
@@ -33,6 +33,7 @@ export default function TratamientoEquipoForm({
     isPending,
     ...rest
 }: TratamientoEquipoFormProps) {
+    const [values, setValues] = useState<TratamientoEquipo>(initialData);
     const { data, isPending: isDataPending } = useQuery({
         queryKey: ['actors'],
         queryFn: () => getActors({}),
@@ -45,6 +46,10 @@ export default function TratamientoEquipoForm({
             {actor.name}
         </MultiSelectItem>
     ));
+
+    const handleChange = (values: TratamientoEquipo) => {
+        setValues(values);
+    };
 
     const tratamientoequipoFields: FieldConfig<TratamientoEquipo>[] = [
         { name: 'fecha', label: 'Fecha', formField: 'calendar', colSpan: 1 },
@@ -64,7 +69,7 @@ export default function TratamientoEquipoForm({
         { name: 'actividad', label: 'Actividad', formField: 'textarea' },
         {
             name: 'observaciones',
-            label: 'Observaciones',
+            label: `${values.correctivo ? 'Debe completar Observaciones ya que Correctivo fue seleccionado' : 'Observaciones'}`,
             formField: 'textarea',
         },
 
@@ -83,6 +88,7 @@ export default function TratamientoEquipoForm({
             fields={tratamientoequipoFields}
             schema={tratamientoEquipoSchema}
             isPending={isPending}
+            handleChange={handleChange}
             {...rest}
         />
     );

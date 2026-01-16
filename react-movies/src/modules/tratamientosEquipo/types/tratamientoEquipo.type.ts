@@ -10,10 +10,6 @@ const tratamientoEquipoBaseSchema = z.object({
     preventivo: z.boolean(),
     actividad: z.string().min(5, 'Debe ingresar la actividad realizada'),
     observaciones: z.string().optional(),
-    // operador: z
-    //     .string()
-    //     .min(3, 'Debe ingresar el operador que realizó la gestión'),
-    // ... otros campos
     operador: z
         .array(z.coerce.number()) // Convierte ["1", "2"] a [1, 2] automáticamente
         .min(1, 'Debe seleccionar al menos un operador'),

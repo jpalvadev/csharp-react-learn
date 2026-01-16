@@ -42,7 +42,9 @@ function RouteComponent() {
         <div className="flex flex-col gap-4">
             <div className="flex items-center justify-between">
                 <div className="flex gap-4">
-                    <h1 className="text-2xl font-semibold mb-1">Genres</h1>
+                    <h1 className="text-2xl font-semibold mb-1">
+                        Tratamiento de Equipos
+                    </h1>
 
                     <Button asChild>
                         <Link to="/tratamientosEquipo/new">Nuevo</Link>

@@ -39,6 +39,7 @@ interface GenericFormProps<TData extends Record<string, any>> {
     isPending: boolean;
     children?: ReactNode;
     columns?: number;
+    handleChange?: (values: TData) => void;
 }
 
 export default function GenericForm<TData extends Record<string, any>>({
@@ -50,6 +51,7 @@ export default function GenericForm<TData extends Record<string, any>>({
     isPending,
     children,
     columns = 4,
+    handleChange,
 }: GenericFormProps<TData>) {
     const router = useRouter();
     const canGoBack = useCanGoBack();
@@ -76,6 +78,8 @@ export default function GenericForm<TData extends Record<string, any>>({
             }
         },
     });
+    // const currentValues = form.state.values;
+    // console.log({ currentValues });
 
     if (isPending) return <Loading />;
 
@@ -84,6 +88,11 @@ export default function GenericForm<TData extends Record<string, any>>({
             onSubmit={(e) => {
                 e.preventDefault();
                 form.handleSubmit();
+            }}
+            onChange={() => {
+                if (handleChange) {
+                    handleChange(form.state.values);
+                }
             }}
         >
             <FieldGroup>

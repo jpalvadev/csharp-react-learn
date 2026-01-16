@@ -8,7 +8,16 @@ const movieBaseSchema = z.object({
         .string()
         .min(3, 'Title mus have at least 3 letters')
         .refine(...firstLetterUppercase()),
-    releaseDate: z.coerce.date().refine(...dateNotInFuture()),
+
+    releaseDate: z.preprocess(
+        (arg) =>
+            typeof arg === 'string' || arg instanceof Date
+                ? new Date(arg)
+                : undefined,
+        z
+            .date({ message: 'La fecha es obligatoria' })
+            .refine(...dateNotInFuture())
+    ),
 
     trailer: z.string().optional(),
     picture: z
@@ -23,7 +32,9 @@ const movieBaseSchema = z.object({
             },
             { message: 'Max file size is 500Kb' }
         ),
-    genre: z.array(z.string().optional()),
+    genreIds: z.array(z.coerce.number()).optional(),
+    actorIds: z.array(z.coerce.number()).optional(),
+    theaterIds: z.array(z.coerce.number()).optional(),
 });
 
 // POST
