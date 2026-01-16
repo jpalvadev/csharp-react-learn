@@ -11,25 +11,45 @@ const tratamientoEquipoBaseSchema = z.object({
     actividad: z.string().min(5, 'Debe ingresar la actividad realizada'),
     observaciones: z.string().optional(),
     operador: z
-        .array(z.coerce.number()) // Convierte ["1", "2"] a [1, 2] automáticamente
+        .array(z.coerce.number())
         .min(1, 'Debe seleccionar al menos un operador'),
 });
 
-export const createTratamientoEquipoSchema = tratamientoEquipoBaseSchema;
-export type CreateTratamientoEquipo = z.infer<
-    typeof tratamientoEquipoBaseSchema
->;
+// logica de validacion para reutilizar. Se hace asi porque se debe aplicar al final
+const validacionCorrectivo = (values: any, ctx: z.RefinementCtx) => {
+    if (
+        values.correctivo === true &&
+        (!values.observaciones || values.observaciones.trim() === '')
+    ) {
+        ctx.addIssue({
+            code: 'custom',
+            path: ['observaciones'],
+            message: 'Las observaciones son obligatorias cuando es correctivo',
+        });
+    }
+};
 
-export const updateTratamientoEquipoSchema =
-    tratamientoEquipoBaseSchema.partial();
+// 3. Creamos las variaciones ANTES de aplicar superRefine
+export const createTratamientoEquipoSchema =
+    tratamientoEquipoBaseSchema.superRefine(validacionCorrectivo);
+
+export const updateTratamientoEquipoSchema = tratamientoEquipoBaseSchema
+    .partial()
+    .superRefine(validacionCorrectivo);
+
+export const tratamientoEquipoSchema = tratamientoEquipoBaseSchema
+    .extend({
+        id: z.number(),
+    })
+    .superRefine(validacionCorrectivo);
+
+// 4. Tipos
+export type CreateTratamientoEquipo = z.infer<
+    typeof createTratamientoEquipoSchema
+>;
 export type UpdateTratamientoEquipo = z.infer<
     typeof updateTratamientoEquipoSchema
 >;
-
-export const tratamientoEquipoSchema = tratamientoEquipoBaseSchema.extend({
-    id: z.number(),
-});
-
 export type TratamientoEquipo = z.infer<typeof tratamientoEquipoSchema>;
 
 export type TratamientoEquipoFilters = Filters<TratamientoEquipo>;

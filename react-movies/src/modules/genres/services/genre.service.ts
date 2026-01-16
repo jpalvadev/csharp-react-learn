@@ -17,6 +17,8 @@ export async function getGenres(
     //     },
     // });
 
+    console.log({ filtersAndPagination });
+
     const data = [
         {
             id: 1,

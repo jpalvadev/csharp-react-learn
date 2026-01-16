@@ -9,8 +9,10 @@ import {
     MultiSelectItem,
     MultiSelectTrigger,
     MultiSelectValue,
+    useMultiSelectContext,
 } from '@/components/ui/multi-select';
-import type { Lookup } from '@/types/lookup.type';
+import { useLookup } from '@/hooks/useLookup';
+import type { PaginatedData } from '@/types/table.type';
 
 type OverflowBehavior = 'wrap-when-open' | 'wrap' | 'cutoff';
 
@@ -43,14 +45,31 @@ export default function FormMultiSelect({
     );
 }
 
-type MultiSelectItemsProps = {
-    data: Lookup[];
+type MultiSelectItemsProps<T> = {
+    cacheKey: string;
+    fetchFn: (params: Record<string, string>) => Promise<PaginatedData<T>>;
+    mapConfig: { label: keyof T; value: keyof T };
 };
 
-export function MultiSelectItems({ data }: MultiSelectItemsProps) {
-    return data.map((theater) => (
-        <MultiSelectItem key={theater.value} value={theater.value.toString()}>
-            {theater.label}
+export function MultiSelectItems<T>({
+    cacheKey,
+    fetchFn,
+    mapConfig,
+}: MultiSelectItemsProps<T>) {
+    const { searchValue } = useMultiSelectContext(); // estado del input del buscador
+
+    const { lookups, isPending } = useLookup(
+        cacheKey,
+        fetchFn,
+        searchValue,
+        mapConfig
+    );
+
+    if (isPending) return <p>Cargando...</p>;
+
+    return lookups.map((item) => (
+        <MultiSelectItem key={item.value} value={item.value.toString()}>
+            {item.label}
         </MultiSelectItem>
     ));
 }
