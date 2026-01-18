@@ -1,1 +1,1 @@
-export type FormMode = 'create' | 'update' | 'view';
+export type FormMode = 'create' | 'update' | 'view' | 'delete';

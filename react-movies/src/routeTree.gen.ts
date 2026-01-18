@@ -36,6 +36,7 @@ import { Route as TratamientosEquipoIdEditRouteImport } from './routes/tratamien
 import { Route as TheatersIdEditRouteImport } from './routes/theaters/$id/edit'
 import { Route as MoviesIdEditRouteImport } from './routes/movies/$id/edit'
 import { Route as GenresIdEditRouteImport } from './routes/genres/$id/edit'
+import { Route as GenresIdDeleteRouteImport } from './routes/genres/$id/delete'
 import { Route as ActorsIdEditRouteImport } from './routes/actors/$id/edit'
 
 const DashboardRoute = DashboardRouteImport.update({
@@ -175,6 +176,11 @@ const GenresIdEditRoute = GenresIdEditRouteImport.update({
   path: '/edit',
   getParentRoute: () => GenresIdRoute,
 } as any)
+const GenresIdDeleteRoute = GenresIdDeleteRouteImport.update({
+  id: '/delete',
+  path: '/delete',
+  getParentRoute: () => GenresIdRoute,
+} as any)
 const ActorsIdEditRoute = ActorsIdEditRouteImport.update({
   id: '/edit',
   path: '/edit',
@@ -201,6 +207,7 @@ export interface FileRoutesByFullPath {
   '/theaters': typeof TheatersIndexRoute
   '/tratamientosEquipo': typeof TratamientosEquipoIndexRoute
   '/actors/$id/edit': typeof ActorsIdEditRoute
+  '/genres/$id/delete': typeof GenresIdDeleteRoute
   '/genres/$id/edit': typeof GenresIdEditRoute
   '/movies/$id/edit': typeof MoviesIdEditRoute
   '/theaters/$id/edit': typeof TheatersIdEditRoute
@@ -226,6 +233,7 @@ export interface FileRoutesByTo {
   '/theaters': typeof TheatersIndexRoute
   '/tratamientosEquipo': typeof TratamientosEquipoIndexRoute
   '/actors/$id/edit': typeof ActorsIdEditRoute
+  '/genres/$id/delete': typeof GenresIdDeleteRoute
   '/genres/$id/edit': typeof GenresIdEditRoute
   '/movies/$id/edit': typeof MoviesIdEditRoute
   '/theaters/$id/edit': typeof TheatersIdEditRoute
@@ -257,6 +265,7 @@ export interface FileRoutesById {
   '/theaters/': typeof TheatersIndexRoute
   '/tratamientosEquipo/': typeof TratamientosEquipoIndexRoute
   '/actors/$id/edit': typeof ActorsIdEditRoute
+  '/genres/$id/delete': typeof GenresIdDeleteRoute
   '/genres/$id/edit': typeof GenresIdEditRoute
   '/movies/$id/edit': typeof MoviesIdEditRoute
   '/theaters/$id/edit': typeof TheatersIdEditRoute
@@ -289,6 +298,7 @@ export interface FileRouteTypes {
     | '/theaters'
     | '/tratamientosEquipo'
     | '/actors/$id/edit'
+    | '/genres/$id/delete'
     | '/genres/$id/edit'
     | '/movies/$id/edit'
     | '/theaters/$id/edit'
@@ -314,6 +324,7 @@ export interface FileRouteTypes {
     | '/theaters'
     | '/tratamientosEquipo'
     | '/actors/$id/edit'
+    | '/genres/$id/delete'
     | '/genres/$id/edit'
     | '/movies/$id/edit'
     | '/theaters/$id/edit'
@@ -344,6 +355,7 @@ export interface FileRouteTypes {
     | '/theaters/'
     | '/tratamientosEquipo/'
     | '/actors/$id/edit'
+    | '/genres/$id/delete'
     | '/genres/$id/edit'
     | '/movies/$id/edit'
     | '/theaters/$id/edit'
@@ -567,6 +579,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof GenresIdEditRouteImport
       parentRoute: typeof GenresIdRoute
     }
+    '/genres/$id/delete': {
+      id: '/genres/$id/delete'
+      path: '/delete'
+      fullPath: '/genres/$id/delete'
+      preLoaderRoute: typeof GenresIdDeleteRouteImport
+      parentRoute: typeof GenresIdRoute
+    }
     '/actors/$id/edit': {
       id: '/actors/$id/edit'
       path: '/edit'
@@ -592,11 +611,13 @@ const ActorsIdRouteWithChildren = ActorsIdRoute._addFileChildren(
 )
 
 interface GenresIdRouteChildren {
+  GenresIdDeleteRoute: typeof GenresIdDeleteRoute
   GenresIdEditRoute: typeof GenresIdEditRoute
   GenresIdIndexRoute: typeof GenresIdIndexRoute
 }
 
 const GenresIdRouteChildren: GenresIdRouteChildren = {
+  GenresIdDeleteRoute: GenresIdDeleteRoute,
   GenresIdEditRoute: GenresIdEditRoute,
   GenresIdIndexRoute: GenresIdIndexRoute,
 }

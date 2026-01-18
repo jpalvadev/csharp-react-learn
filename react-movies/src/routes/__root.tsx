@@ -1,4 +1,4 @@
-import NotFound from '@/components/notFound';
+import NotFound from '@/components/NotFound';
 import AppShell from '@/layouts/AppShell';
 import { createRootRoute, Outlet } from '@tanstack/react-router';
 import { TanStackRouterDevtools } from '@tanstack/react-router-devtools';
@@ -10,7 +10,7 @@ const RootLayout = () => (
             <Outlet />
         </AppShell>
         <TanStackRouterDevtools />
-        <Toaster />
+        <Toaster expand position="top-center" richColors />
     </>
 );
 

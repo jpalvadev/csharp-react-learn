@@ -44,13 +44,13 @@ export const GENRE_COLUMNS: ColumnDef<Genre>[] = [
                             <DropdownMenuItem
                                 onClick={() => {
                                     navigator.clipboard.writeText(
-                                        genre.id.toString()
+                                        genre.id.toString(),
                                     );
                                     toast.success(
                                         `Genre Id: ${genre.id} copied to clipboard`,
                                         {
                                             position: 'top-center',
-                                        }
+                                        },
                                     );
                                 }}
                             >
@@ -73,7 +73,14 @@ export const GENRE_COLUMNS: ColumnDef<Genre>[] = [
                                     Edit Genre
                                 </Link>
                             </DropdownMenuItem>
-                            <DropdownMenuItem>Delete Genre</DropdownMenuItem>
+                            <DropdownMenuItem>
+                                <Link
+                                    to="/genres/$id/delete"
+                                    params={{ id: genre.id.toString().trim() }}
+                                >
+                                    Delete Genre
+                                </Link>
+                            </DropdownMenuItem>
                         </DropdownMenuContent>
                     </DropdownMenu>
                 </div>

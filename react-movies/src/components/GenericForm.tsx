@@ -7,6 +7,7 @@ import { useCanGoBack, useRouter } from '@tanstack/react-router';
 import type { ReactNode } from 'react';
 import { ZodType } from 'zod';
 import Loading from './Loading';
+import { GenericAlertDialog } from './GenericAlertDialog';
 
 // TKey asegura que solo pueda usar nombres que existan rn rl objeto Data
 export interface FieldConfig<TData> {
@@ -55,6 +56,7 @@ export default function GenericForm<TData extends Record<string, any>>({
 }: GenericFormProps<TData>) {
     const router = useRouter();
     const canGoBack = useCanGoBack();
+    const isFieldDisabled = mode === 'view' || mode === 'delete';
 
     const getColClass = (colSpan?: number) => {
         if (!colSpan) return 'col-span-4';
@@ -124,7 +126,7 @@ export default function GenericForm<TData extends Record<string, any>>({
                                                             f.description
                                                         }
                                                         disabled={
-                                                            mode === 'view'
+                                                            isFieldDisabled
                                                         }
                                                         onChange={f.onChange}
                                                     />
@@ -137,7 +139,7 @@ export default function GenericForm<TData extends Record<string, any>>({
                                                             f.description
                                                         }
                                                         disabled={
-                                                            mode === 'view'
+                                                            isFieldDisabled
                                                         }
                                                     />
                                                 );
@@ -151,7 +153,7 @@ export default function GenericForm<TData extends Record<string, any>>({
                                                             f.description
                                                         }
                                                         disabled={
-                                                            mode === 'view'
+                                                            isFieldDisabled
                                                         }
                                                         onChange={f.onChange}
                                                         accept={f.accept}
@@ -165,7 +167,7 @@ export default function GenericForm<TData extends Record<string, any>>({
                                                             f.description
                                                         }
                                                         disabled={
-                                                            mode === 'view'
+                                                            isFieldDisabled
                                                         }
                                                     />
                                                 );
@@ -178,7 +180,7 @@ export default function GenericForm<TData extends Record<string, any>>({
                                                             f.description
                                                         }
                                                         disabled={
-                                                            mode === 'view'
+                                                            isFieldDisabled
                                                         }
                                                     />
                                                 );
@@ -195,7 +197,7 @@ export default function GenericForm<TData extends Record<string, any>>({
                                                     <field.Leaflet
                                                         label={f.label}
                                                         disabled={
-                                                            mode === 'view'
+                                                            isFieldDisabled
                                                         }
                                                     />
                                                 );
@@ -222,10 +224,22 @@ export default function GenericForm<TData extends Record<string, any>>({
                 {children}
 
                 <div className="w-full flex gap-4 justify-between">
-                    {mode !== 'view' && (
+                    {(mode === 'update' || mode === 'create') && (
                         <Button variant="info" className="grow" type="submit">
                             Save
                         </Button>
+                    )}
+
+                    {mode === 'delete' && (
+                        <GenericAlertDialog onAction={form.handleSubmit}>
+                            <Button
+                                variant="destructive"
+                                className="grow"
+                                type="button"
+                            >
+                                Delete
+                            </Button>
+                        </GenericAlertDialog>
                     )}
 
                     {canGoBack ? (
