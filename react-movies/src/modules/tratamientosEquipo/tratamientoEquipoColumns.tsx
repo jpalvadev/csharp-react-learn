@@ -23,8 +23,9 @@ export const TRATAMIENTOEQUIPO_COLUMNS: ColumnDef<TratamientoEquipo>[] = [
         accessorKey: 'fecha',
         header: () => <span>Fecha</span>,
         cell: ({ getValue }) => {
-            const fecha = getValue() as Date;
-            return fecha.toLocaleDateString();
+            console.log(getValue());
+            // const fecha = getValue() as Date;
+            // return fecha.toLocaleDateString();
         },
         meta: { filterKey: 'fecha' },
     },
@@ -82,13 +83,13 @@ export const TRATAMIENTOEQUIPO_COLUMNS: ColumnDef<TratamientoEquipo>[] = [
                             <DropdownMenuItem
                                 onClick={() => {
                                     navigator.clipboard.writeText(
-                                        tratamientoEquipo.id.toString()
+                                        tratamientoEquipo.id.toString(),
                                     );
                                     toast.success(
                                         `TratamientoEquipo Id: ${tratamientoEquipo.id} copied to clipboard`,
                                         {
                                             position: 'top-center',
-                                        }
+                                        },
                                     );
                                 }}
                             >

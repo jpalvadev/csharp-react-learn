@@ -1,6 +1,8 @@
+using Azure.Storage.Blobs;
 using Microsoft.EntityFrameworkCore;
 using MoviesAPI;
 using MoviesAPI.Data;
+using MoviesAPI.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,6 +20,11 @@ builder.Services.AddCors(options =>
             .WithExposedHeaders("total-records-count");
     });
 });
+
+builder.Services.AddSingleton(_ =>
+    new BlobServiceClient(
+        builder.Configuration["AzureStorage:ConnectionString"]
+    ));
 
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
@@ -40,6 +47,11 @@ builder.Services.AddAutoMapper(cfg =>
 
 }, typeof(Program).Assembly);
 
+//builder.Services.AddTransient<IFileStorage, AzureFileStorage>();
+builder.Services.AddTransient<IFileStorage, LocalFileStorage>();
+
+builder.Services.AddHttpContextAccessor();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -56,8 +68,11 @@ app.UseOutputCache();
 
 app.UseHttpsRedirection();
 
+app.UseStaticFiles();
+
 app.UseAuthorization();
 
 app.MapControllers();
 
 app.Run();
+

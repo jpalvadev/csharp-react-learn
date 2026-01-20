@@ -3,9 +3,15 @@ import { dateNotInFuture } from '@/utils/validations';
 import * as z from 'zod';
 
 const tratamientoEquipoBaseSchema = z.object({
-    fecha: z.coerce
-        .date()
-        .refine(...dateNotInFuture('La fecha no puede ser futura')),
+    fecha: z.preprocess(
+        (arg) =>
+            typeof arg === 'string' || arg instanceof Date
+                ? new Date(arg)
+                : undefined,
+        z
+            .date({ message: 'La fecha es obligatoria' })
+            .refine(...dateNotInFuture()),
+    ),
     correctivo: z.boolean(),
     preventivo: z.boolean(),
     actividad: z.string().min(5, 'Debe ingresar la actividad realizada'),

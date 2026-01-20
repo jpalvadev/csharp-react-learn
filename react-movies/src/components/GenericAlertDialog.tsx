@@ -7,17 +7,16 @@ import {
     AlertDialogFooter,
     AlertDialogHeader,
     AlertDialogTitle,
-    AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
 import type { ReactNode } from 'react';
 
 type GenericAlertDialogProps = {
     children: ReactNode;
+    onAction: () => void;
     title?: string;
     description?: string;
     actionText?: string;
     cancelText?: string;
-    onAction: () => void;
 };
 
 export function GenericAlertDialog({
@@ -30,7 +29,7 @@ export function GenericAlertDialog({
 }: GenericAlertDialogProps) {
     return (
         <AlertDialog>
-            <AlertDialogTrigger asChild>{children}</AlertDialogTrigger>
+            {children}
             <AlertDialogContent>
                 <AlertDialogHeader>
                     <AlertDialogTitle>{title}</AlertDialogTitle>

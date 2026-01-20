@@ -9,14 +9,14 @@ type ActorFormProps = {
     isPending: boolean;
 };
 
-const defaultActor: Actor = {
+const defaultActor: Partial<Actor> = {
     id: 0,
     name: '',
-    dateOfBirth: new Date(),
+    // dateOfBirth: new Date(),
 };
 
 export default function ActorForm({
-    initialData = defaultActor,
+    initialData = defaultActor as Actor,
     ...rest
 }: ActorFormProps) {
     const actorFields: FieldConfig<Actor>[] = [

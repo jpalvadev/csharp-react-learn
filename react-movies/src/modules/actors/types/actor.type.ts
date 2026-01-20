@@ -8,7 +8,15 @@ const actorBaseSchema = z.object({
         .min(3, 'Actor Name must have at least 3 letters')
         .max(50, 'dont set sail, cat (no te zarpes, gato), 50 chars max')
         .refine(...firstLetterUppercase()),
-    dateOfBirth: z.coerce.date().refine(...dateNotInFuture()),
+    dateOfBirth: z.preprocess(
+        (arg) =>
+            typeof arg === 'string' || arg instanceof Date
+                ? new Date(arg)
+                : undefined,
+        z
+            .date({ message: 'La fecha es obligatoria' })
+            .refine(...dateNotInFuture()),
+    ),
     picture: z
         .union([z.instanceof(File), z.string()]) // puede ser file (front) o string(URL desde backend)
         .optional()
@@ -19,7 +27,7 @@ const actorBaseSchema = z.object({
                 }
                 return true; // las URL siempre son válidas
             },
-            { message: 'Max file size is 500Kb' }
+            { message: 'Max file size is 500Kb' },
         ),
 });
 

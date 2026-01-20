@@ -19,7 +19,7 @@ function NewGenreRoute() {
         mutationFn: (data: Genre) => createGenre(data),
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['genres'] });
-            toast('Genre created', {
+            toast.success('Genre created', {
                 description: 'The genre has been created successfully',
             });
             router.navigate({ to: '/genres' });

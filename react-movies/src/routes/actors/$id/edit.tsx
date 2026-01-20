@@ -4,7 +4,7 @@ import {
     editActor,
     getActorById,
 } from '@/modules/actors/services/actor.service';
-import type { Actor } from '@/modules/actors/types/actor.type';
+import type { UpdateActor } from '@/modules/actors/types/actor.type';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { createFileRoute, useRouter } from '@tanstack/react-router';
 import { toast } from 'sonner';
@@ -23,7 +23,7 @@ function EditActorRoute() {
     const queryClient = useQueryClient();
 
     const { mutate, isPending } = useMutation({
-        mutationFn: (data: Actor) => editActor(data),
+        mutationFn: (data: UpdateActor) => editActor(actor.id, data),
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['actors'] });
             toast('Actor updated', {

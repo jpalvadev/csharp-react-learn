@@ -15,7 +15,10 @@ function NewActorRoute() {
     const queryClient = useQueryClient();
 
     const { mutate, isPending } = useMutation({
-        mutationFn: (data: Actor) => createActor(data),
+        mutationFn: (data: Actor) => {
+            console.log('data', data);
+            return createActor(data);
+        },
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['actors'] });
             toast('Actor created', {

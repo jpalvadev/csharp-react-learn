@@ -9,7 +9,7 @@ import { useFieldContext } from './hooks';
 export default function FormCalendar(
     props: FormControlProps & {
         onChange?: (date: Date | undefined) => void; // Cambiado a Date
-    }
+    },
 ) {
     const field = useFieldContext<Date>();
     const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid;

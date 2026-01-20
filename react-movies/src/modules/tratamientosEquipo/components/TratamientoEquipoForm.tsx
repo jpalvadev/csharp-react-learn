@@ -18,9 +18,9 @@ type TratamientoEquipoFormProps = {
     isPending: boolean;
 };
 
-const defaultTratamientoEquipo: TratamientoEquipo = {
+const defaultTratamientoEquipo: Partial<TratamientoEquipo> = {
     id: 0,
-    fecha: new Date(),
+    // fecha: new Date(),
     correctivo: false,
     preventivo: false,
     actividad: '',
@@ -29,7 +29,7 @@ const defaultTratamientoEquipo: TratamientoEquipo = {
 };
 
 export default function TratamientoEquipoForm({
-    initialData = defaultTratamientoEquipo,
+    initialData = defaultTratamientoEquipo as TratamientoEquipo,
     isPending,
     ...rest
 }: TratamientoEquipoFormProps) {
